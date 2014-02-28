@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/security 
+                    http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+
+	<!-- Creating the interceptors -->
+	<!-- WARNING SET YOUR SECURITY FILTERS HERE INCLUDING YOUR RESOURCES -->
+	<!-- used for basic security access for example for REST service -->
+	<http use-expressions="true" pattern="/rest/**">
+		<intercept-url pattern="/rest/register*" access="permitAll" />
+		<intercept-url pattern="/rest/secure/**" access="isAuthenticated()" />
+		<intercept-url pattern="/**" access="denyAll" />
+		<http-basic />
+	</http>
+
+	<!-- used for form login page for example for Login page through browser -->
+	<http use-expressions="true">
+		<intercept-url pattern="/public-resources/**" access="permitAll" />
+		<intercept-url pattern="/mvc/errors/**" access="permitAll" />
+		<intercept-url pattern="/mvc/login" access="permitAll" />
+		<intercept-url pattern="/mvc/loginfailed" access="permitAll" />
+		<intercept-url pattern="/mvc/logout" access="permitAll" />
+		<intercept-url pattern="/resources/**" access="isAuthenticated()" />
+		<intercept-url pattern="/mvc/secure/**" access="isAuthenticated()" />
+		<intercept-url pattern="/**" access="denyAll" />
+		<form-login login-page="/mvc/login" default-target-url="/mvc/secure/home"
+			authentication-failure-url="/mvc/loginfailed" />
+		<logout logout-success-url="/mvc/logout" />
+	</http>
+
+	<!-- Creating authentcation manager -->
+	<authentication-manager>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="
+		      select login,password, enabled 
+		      from login_table where login=?"
+
+				authorities-by-username-query="
+		      select u.login, ur.authority 
+					from login_table u, user_roles ur 
+					where u.idLOGIN_TABLE = ur.fk_Login_Table_id 
+						and  u.login =?  " />
+		</authentication-provider>
+	</authentication-manager>
+</beans:beans>   

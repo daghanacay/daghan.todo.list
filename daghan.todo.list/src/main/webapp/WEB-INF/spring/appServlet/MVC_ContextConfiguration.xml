@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	    http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/security 
+        http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+
+
+
+	<!-- Look for controllers -->
+	<!-- WARNING CHANGE THIS TO YOUR MVC CONTROLLER PACKAGE -->
+	<context:component-scan base-package="com.daghan.todo.controller.mvc" />
+	
+
+	<!-- Adding security layer -->
+	<security:global-method-security
+		pre-post-annotations="enabled" />
+
+	<!-- register ViewREsolver class -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<!-- prefix added to the return value of the controller to find the location 
+				of the view file -->
+			<value>/WEB-INF/views/</value>
+		</property>
+		<!-- suffix added to the return value of the controller to find the location 
+			of the view file -->
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	<mvc:annotation-driven />
+	<!-- WARNING CHANGE THIS TO YOUR RESOURCE FOLDERS -->
+	<mvc:resources mapping="/resources/**" location="/resources" />
+	<mvc:default-servlet-handler />
+
+	<!-- Add custom messages for validation -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+</beans>
+

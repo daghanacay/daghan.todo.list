@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- Import Hibernate XML configuration -->
+	<import resource="JPA(Hibernate)Configuration.xml" />
+	<!-- Import Spring Security Configuration -->
+	<!-- WARNING JPA configuration defines where the database for the user login 
+		is so security setting relies on jpa setting -->
+	<import resource="SpringSecurityConfiguration.xml" />
+
+	<!-- WARNING CHANGE THESE TO YOUR MOCKS THAT NEEDS TO BE INJECTED TO THE 
+		CONTEXT -->
+	<bean class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="com.daghan.todo.service.ILoginDetailService" />
+	</bean>
+	<bean class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="com.daghan.todo.service.ITodoService" />
+	</bean>
+	<bean class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="com.daghan.todo.service.IUserDataService" />
+	</bean>
+</beans>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/mvc 
+						http://www.springframework.org/schema/mvc/spring-mvc.xsd
+						http://www.springframework.org/schema/security 
+                    	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<!-- Enables automatic mapping of fund objects to and from JSON -->
+	<mvc:annotation-driven
+		content-negotiation-manager="cnManager" />
+	<!-- Setup spring to pull in @Controller, @RequestMapping, etc Configuration 
+		scans specified packages for classes configured as Spring managed beans and 
+		automatically sets up objects annotated with @Controller, @Service etc. -->
+	<!-- WARNING ADD YOUR REST CONTROLLERS HERE -->
+	<context:component-scan base-package="com.daghan.todo.controller.rest" />
+
+	<!-- Adding security layer -->
+	<security:global-method-security
+		pre-post-annotations="enabled">
+	</security:global-method-security>
+
+
+	<!-- Adding the JASON converter -->
+
+	<bean id="cnManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="true" />
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="defaultContentType" value="text/html" />
+		<property name="useJaf" value="false" />
+
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+	</bean>
+
+</beans>
