@@ -42,7 +42,7 @@ public class RegisterController extends AbstractController<Registration> {
 	// registers the user using json data
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = { "application/json" })
 	public @ResponseBody
-	String register(@Valid @RequestBody Registration regInfo,
+	Registration register(@Valid @RequestBody Registration regInfo,
 			BindingResult bindingResult, HttpServletRequest request)
 			throws BindingIsNotSuccesfulException, NotUniqueException {
 		checkBindingResult(bindingResult);
@@ -67,7 +67,7 @@ public class RegisterController extends AbstractController<Registration> {
 					new Object[] { regInfo.getEmail() }));
 		}
 
-		return "success";
+		return regInfo;
 	}
 
 	// Automatically authenticate the user after successful registration
