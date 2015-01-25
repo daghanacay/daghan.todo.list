@@ -38,12 +38,12 @@
 			<jdbc-user-service data-source-ref="dataSource"
 				users-by-username-query="
 		      select login,password, enabled 
-		      from login_table where login=?"
+		      from LOGIN_TABLE where login=?"
 
 				authorities-by-username-query="
 		      select u.login, ur.authority 
-					from login_table u, user_roles ur 
-					where u.idLOGIN_TABLE = ur.fk_Login_Table_id 
+					from LOGIN_TABLE u, USER_ROLES ur 
+					where u.idLOGIN_TABLE = ur.fk_LOGIN_TABLE_id 
 						and  u.login =?  " />
 		</authentication-provider>
 	</authentication-manager>

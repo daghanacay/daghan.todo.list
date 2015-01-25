@@ -31,7 +31,7 @@ public class TodoDAO extends AbstractJpaDAO<Todo> implements ITodoService {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Todo> getNotesForUser(Long userId) {
-		String sqlQuery = "SELECT * FROM todo_items as todos where todos.fk_USER_DATA_id = ?";
+		String sqlQuery = "SELECT * FROM TODO_ITEMS as todos where todos.fk_USER_DATA_id = ?";
 		return (List<Todo>) entityManager
 				.createNativeQuery(sqlQuery, Todo.class)
 				.setParameter(1, userId).getResultList();
